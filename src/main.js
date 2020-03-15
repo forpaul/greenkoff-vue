@@ -5,6 +5,7 @@ import routes from './router.js'
 import axios from 'axios'
 import Vuetify from 'vuetify';
 
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(VueRouter)

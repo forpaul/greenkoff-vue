@@ -96,6 +96,10 @@ export default {
 }
 #banners--img{
   opacity: .5;
+
+}
+.banners-img-class{
+  transition: 700ms;
 }
 .banners-img-class:hover{
   opacity: 1 !important;
