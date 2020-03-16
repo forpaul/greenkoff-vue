@@ -12,6 +12,9 @@ export default {
   name: 'app',
   components: {
     Navigation
+  },
+  created() {
+    console.log('pidr')
   }
 }
 </script>

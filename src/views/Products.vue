@@ -73,9 +73,20 @@
 export default {
   data() {
     return {
+      defaultProduct: {
+        name: '',
+        description: '',
+        price: 0,
+        position: 0
+      },
       modal: {
         show: false,
-        item: {}
+        item: {
+          name: '',
+          description: '',
+          price: 0,
+          position: 0
+        }
       },
       items: [
           {
@@ -119,6 +130,10 @@ export default {
 .title{
   position: relative;
   padding-top: 20px;
+  word-break: break-all;
+}
+.description {
+  width: fit-content;
   word-break: break-all;
 }
 .description {
