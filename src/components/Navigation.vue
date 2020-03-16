@@ -13,6 +13,7 @@
 	      <v-btn flat @click="$router.push('/products')">Товары</v-btn>
 	      <v-btn flat @click="$router.push('/services')">Услуги</v-btn>
 	      <v-btn flat @click="$router.push('/contacts')">Контакты</v-btn>
+		  <v-btn flat @click="$router.push('/AdminPanel')">Админка</v-btn>
 	  	</v-toolbar-items>    
 	  </v-toolbar>
 	</div>

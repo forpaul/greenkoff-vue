@@ -2,26 +2,26 @@
 <div class="product">
   <div class="cart-items">
   <v-layout wrap class="cart-item" justify-center >
-    <v-flex xs12 sm2 class="item" >
-      <v-card @click="dialog=true">
+    <v-flex xs12 sm2 class="item" v-for="product in products" :key="product.id">
+      <v-card @click="openModal(product)">
         <v-img
           class="white--text"
           height="200px"
-          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+          :src="items[product.id -1] ? items[product.id -1] : ''"
         >
           <v-container fill-height fluid>
             <v-layout fill-height>
-              <v-flex xs12 align-end flexbox>
-                <span class="headline">{{ title }}</span>
+              <v-flex xm12 align-end flexbox>
+                <span class="headline">{{ product.name }}</span>
               </v-flex>
             </v-layout>
           </v-container>
         </v-img>
         <v-card-title>
           <div>
-            <div class="description">{{ description }}</div>
+            <div class="description">{{ product.description.slice(0, 50) }} ...</div>
             <v-divider class="my-3"/>
-            <span class="price">Цена: {{ price }} руб</span>
+            <span class="price">Цена: {{ product.price }} руб</span>
           </div>
         </v-card-title>
       </v-card>
@@ -29,49 +29,101 @@
   </v-layout>
    </div>
   <!-- /.cart-items -->
-    <v-dialog
-      v-model="dialog"
-      max-width="70%"
-    >
-      <div class="dialog-item">
-        <div class="dialog-title">{{ title }}</div>
-        <div class="dialog-content">
-          <div class="dialog-gallery">
-            <v-carousel 
-            hide-delimiters
-            height = '500'
-            >
-            <v-carousel-item
+  <v-dialog
+    v-model="modal.show"
+    max-width="70%"
+    v-if="modal.show"
+  >
+    <div class="dialog-item">
+        <div class="dialog-title">{{ modal.item.name }}</div>
+      <div class="dialog-content">
+        <div class="dialog-gallery">
+          <v-carousel 
+          hide-delimiters
+          height = '500'
+          >
+          <v-carousel-item
             v-for="(item,i) in items"
             :key="i"
             :src="item.src"
-            ></v-carousel-item>
-            </v-carousel>
-          </div>
-          <div class="dialog-text">
-            <div class="dialog-text__content">
-              <div class="dialog-price">Цена {{ price }} руб</div>
-              <div class="dialog-description">{{ description }}</div>
-            </div>
-            <v-btn 
-          class="btn-close" 
-          color="warning" 
-          dark
-          @click="dialog=false">
-              Закрыть
-          </v-btn>
-          </div>
-          
+          />
+          </v-carousel>
         </div>
-      </div>   
-    </v-dialog>
+        <div class="dialog-text">
+          <div class="dialog-text__content">
+            <div class="dialog-price">Цена {{ modal.item.price }} руб</div>
+            <div class="dialog-description">{{ modal.item.description }}</div>
+          </div>
+          <v-btn 
+            class="btn-close" 
+            color="warning" 
+            dark
+            @click="modal.show=false"
+          >
+            Закрыть
+        </v-btn>
+        </div>
+        </div> 
+      </div> 
+  </v-dialog>
 </div>
-<!-- /.product -->
 </template>
-<style lang="css">
+
+<script>
+export default {
+  data() {
+    return {
+      modal: {
+        show: false,
+        item: {}
+      },
+      items: [
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
+          }
+      ],
+      products: []
+    }
+  },
+  methods: {
+    openModal(product) {    
+      this.modal.item = Object.assign({}, product)
+      this.modal.show = true
+    },
+    async getProducts() {
+      try {
+        const response = await this.apps_api.get('http://localhost:8000/api/products/')
+        this.products = response.data
+      } catch(err) {
+        console.log(err)
+      }
+    }
+  },
+  async created() {
+    await this.getProducts()
+  },
+
+}
+</script>
+
+<style scoped lang="css">
 .title{
   position: relative;
   padding-top: 20px;
+  word-break: break-all;
+}
+.description {
+  width: fit-content;
+  word-break: break-all;
 }
 .item{
   margin: 30px;
@@ -92,6 +144,7 @@
 /* DIALOG */
 .dialog-title{
   font-size: 42px;
+  word-break: break-all;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -121,36 +174,9 @@
 }
 .dialog-description{
   width: 300px;
+  word-break: break-all
 }
 .btn-close{
   padding: 10px 10px 10px 10px;
 }
 </style>
-<script>
-export default {
-  data(){
-    return{
-      title: 'Что то там',
-      description:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit maiores pariatur veritatis perspiciatis, error fugit dolorem vero. Esse, excepturi, delectus autem nulla expedita doloremque dolores, quo quis aliquam id aspernatur.',
-      price:100,
-      dialog: false,
-      items: [
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
-          }
-        ]
-    }
-    
-  }
-
-}
-</script>

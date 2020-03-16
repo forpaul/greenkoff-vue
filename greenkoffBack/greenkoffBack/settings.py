@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'greenkoffBack',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +50,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'greenkoffBack.urls'
 
@@ -79,7 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'greenkoff',
-        'USER': 'postgres',
+        'USER': 'kirillzaharov',
         'PASSWORD': '123123',
         'HOST': 'localhost',
         'PORT': '',

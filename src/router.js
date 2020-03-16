@@ -5,6 +5,7 @@ import Main from './views/Main.vue'
 import Products from './views/Products.vue'
 import Services from './views/Services.vue'
 import Contacts from './views/Contacts.vue'
+import AdminPanel from './views/AdminPanel.vue'
 
 
 Vue.use(Router)
@@ -30,11 +31,17 @@ const router = new Router({
       name: 'services',
       ru_name: 'Greenkoff - услуги'
     },
-     {
+    {
       path: '/contacts',
       component: Contacts,
       name: 'contacts',
       ru_name: 'Greenkoff - контакы'
+    },
+    {
+      path: '/adminPanel',
+      component: AdminPanel,
+      name: 'adminPanel',
+      ru_name: 'AdminPanel'
     }
   ]
 })
