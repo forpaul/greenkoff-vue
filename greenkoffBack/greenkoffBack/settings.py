@@ -84,12 +84,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'greenkoff',
-        'USER': 'kirillzaharov',
+        'USER': 'postgres',
         'PASSWORD': '123123',
         'HOST': 'localhost',
         'PORT': '',
     }
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Password validation

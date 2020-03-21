@@ -6,7 +6,11 @@
         <input class="input-services" type="text" placeholder="Описание товара" v-model="productObject.description">
         <input class="input-services" type="number" placeholder="Введите цену товара" v-model="productObject.price">
         <input class="input-services" type="number" placeholder="Введите позицию товара" v-model="productObject.position">
-        <input type="file" placeholder="">
+
+        <div>image 1<input type="file" @change="uploadImage($event, 1)" id="file-input" accept="image/jpeg, image/png" placeholder=""></div>
+        <div>image 2<input type="file" @change="uploadImage($event, 2)" accept="image/jpeg, image/png" placeholder=""></div>
+        <div>image 3<input type="file" @change="uploadImage($event, 3)" accept="image/jpeg, image/png" placeholder=""></div>
+        <div>image 4<input type="file" @change="uploadImage($event, 4)" accept="image/jpeg, image/png" placeholder=""></div>
         <v-btn 
         @click="postProduct()" 
         >Добавить товар
@@ -21,7 +25,7 @@
           <div class="services-img"><img 
           class="white--text"
           height="200px"
-          src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" 
+          :src="product.image1 + '/'" 
           >
           </div>
           <div class="services-title"> <h2>{{ product.name }}</h2> </div>
@@ -94,6 +98,8 @@ export default {
         position:0,
         price: 0
       },
+      sendedImages: new FormData(),
+      images: [],
       items: [
           {
             src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
@@ -112,6 +118,19 @@ export default {
     }
   },
   methods: {
+    uploadImage(event, number_image) {
+      this.sendedImages.append(`image${number_image}`, event.target.files[0]); 
+      console.log('this.images', this.images)
+    },
+    async saveImage(product_id) {
+      try {
+          const response = await this.apps_api.patch(`http://localhost:8000/api/upload_image/${product_id}/`, this.sendedImages, {
+            headers: { 'Content-Type' : 'multipart/form-data' }
+          })
+      } catch(err) {
+
+      }
+    },
     openModal(product) {    
       this.modal.editItem = Object.assign({}, product)
       this.modal.show = true
@@ -126,6 +145,7 @@ export default {
     },
     async postProduct(){
       const response = await this.apps_api.post('http://127.0.0.1:8000/api/products/',this.productObject)
+      await this.saveImage(response.data.id)
       await this.getProducts()
       this.productObject = {};
     },

@@ -7,7 +7,7 @@
         <v-img
           class="white--text"
           height="200px"
-          :src="items[product.id -1] ? items[product.id -1] : ''"
+          :src="product.image1"
         >
           <v-container fill-height fluid>
             <v-layout fill-height>
@@ -43,9 +43,9 @@
           height = '500'
           >
           <v-carousel-item
-            v-for="(item,i) in items"
+            v-for="(item,i) in currentProductImages"
             :key="i"
-            :src="item.src"
+            :src="item"
           />
           </v-carousel>
         </div>
@@ -58,7 +58,7 @@
             class="btn-close" 
             color="warning" 
             dark
-            @click="modal.show=false"
+            @click="modal.show = false"
           >
             Закрыть
         </v-btn>
@@ -88,20 +88,7 @@ export default {
           position: 0
         }
       },
-      items: [
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
-          }
-      ],
+      currentProductImages: [],
       products: []
     }
   },
@@ -109,6 +96,19 @@ export default {
     openModal(product) {    
       this.modal.item = Object.assign({}, product)
       this.modal.show = true
+      this.currentProductImages = []
+      if (this.modal.item.image1) {
+        this.currentProductImages.push(this.modal.item.image1)
+      }
+      if (this.modal.item.image2) {
+        this.currentProductImages.push(this.modal.item.image2)
+      }
+      if (this.modal.item.image3) {
+        this.currentProductImages.push(this.modal.item.image3)
+      }
+      if (this.modal.item.image4) {
+        this.currentProductImages.push(this.modal.item.image4)
+      }
     },
     async getProducts() {
       try {
