@@ -1,21 +1,21 @@
 <template>
 <div class="product">
   <div class="cart-items">
-  <v-layout wrap class="cart-item" justify-center >
+  <v-layout wrap class="cart-item" justify-center>
     <v-flex xs12 sm2 class="item" v-for="product in products" :key="product.id">
       <v-card @click="openModal(product)">
+      <v-container fill-height fluid>
+        <v-layout fill-height>
+            <v-flex xm12 align-end flexbox>
+              <span class="headline">{{ product.name }}</span>
+            </v-flex>
+          </v-layout>
+      </v-container>
         <v-img
           class="white--text"
           height="200px"
           :src="product.image1"
         >
-          <v-container fill-height fluid>
-            <v-layout fill-height>
-              <v-flex xm12 align-end flexbox>
-                <span class="headline">{{ product.name }}</span>
-              </v-flex>
-            </v-layout>
-          </v-container>
         </v-img>
         <v-card-title>
           <div>
@@ -40,7 +40,7 @@
         <div class="dialog-gallery">
           <v-carousel 
           hide-delimiters
-          height = '500'
+          interval = '2000'
           >
           <v-carousel-item
             v-for="(item,i) in currentProductImages"
@@ -133,10 +133,15 @@ export default {
   word-break: break-all;
 }
 .description {
+  height: 40px;
   width: fit-content;
   word-break: break-all;
 }
 .description {
+  width: fit-content;
+  word-break: break-all;
+}
+.headline{
   width: fit-content;
   word-break: break-all;
 }

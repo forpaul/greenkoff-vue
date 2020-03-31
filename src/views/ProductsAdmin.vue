@@ -2,15 +2,18 @@
 <div class="product">
   <div class="cart-items">
     <div class="service-add">
-        <input class="input-services" type="text" placeholder="Введите название товара" v-model="productObject.name">
-        <input class="input-services" type="text" placeholder="Описание товара" v-model="productObject.description">
-        <input class="input-services" type="number" placeholder="Введите цену товара" v-model="productObject.price">
-        <input class="input-services" type="number" placeholder="Введите позицию товара" v-model="productObject.position">
-
-        <div>image 1<input type="file" @change="uploadImage($event, 1)" id="file-input" accept="image/jpeg, image/png" placeholder=""></div>
-        <div>image 2<input type="file" @change="uploadImage($event, 2)" accept="image/jpeg, image/png" placeholder=""></div>
-        <div>image 3<input type="file" @change="uploadImage($event, 3)" accept="image/jpeg, image/png" placeholder=""></div>
-        <div>image 4<input type="file" @change="uploadImage($event, 4)" accept="image/jpeg, image/png" placeholder=""></div>
+        <div class="input-service">
+          <div class="input-service__item"><input class="input-services" type="text" placeholder="Введите название товара" v-model="productObject.name"></div>
+          <div class="input-service__item"><input class="input-services" type="text" placeholder="Описание товара" v-model="productObject.description"></div>
+          <div class="input-service__item"><input class="input-services" type="number" placeholder="Введите цену товара" v-model="productObject.price"></div>
+          <div class="input-service__item"><input class="input-services" type="number" placeholder="Введите позицию товара" v-model="productObject.position"></div>
+        </div>
+        <div class="input-group">
+          <div class="input-group__item">Картинка 1<input type="file" @change="uploadImage($event, 1)" id="file-input" accept="image/jpeg, image/png" placeholder=""></div>
+          <div class="input-group__item">Картинка 2<input type="file" @change="uploadImage($event, 2)" accept="image/jpeg, image/png" placeholder=""></div>
+          <div class="input-group__item">Картинка 3<input type="file" @change="uploadImage($event, 3)" accept="image/jpeg, image/png" placeholder=""></div>
+          <div class="input-group__item">Картинка 4<input type="file" @change="uploadImage($event, 4)" accept="image/jpeg, image/png" placeholder=""></div>
+        </div>
         <v-btn 
         @click="postProduct()" 
         >Добавить товар
@@ -38,7 +41,7 @@
     </v-layout>
     <v-dialog
         v-model="modal.show"
-        max-width="70%"
+        max-width="90%"
         v-if="modal.show"
           >
         <div class="dialog-item">
@@ -58,6 +61,12 @@
             <div class="dialog-item-input">
             <label>Новая позиция</label>
             <input type="text" class="input-services" v-model="modal.editItem.position">
+            </div>
+            <div class="input-group">
+              <div class="input-group__item">Картинка 1<input type="file" @change="uploadImage($event, 1)" id="file-input" accept="image/jpeg, image/png" placeholder=""></div>
+              <div class="input-group__item">Картинка 2<input type="file" @change="uploadImage($event, 2)" accept="image/jpeg, image/png" placeholder=""></div>
+              <div class="input-group__item">Картинка 3<input type="file" @change="uploadImage($event, 3)" accept="image/jpeg, image/png" placeholder=""></div>
+              <div class="input-group__item">Картинка 4<input type="file" @change="uploadImage($event, 4)" accept="image/jpeg, image/png" placeholder=""></div>
             </div>
             <div class="buttons">
             <v-btn 
@@ -95,8 +104,8 @@ export default {
       productObject:{
         name:'',
         description:'',
-        position:0,
-        price: 0
+        position:'',
+        price: ''
       },
       sendedImages: new FormData(),
       images: [],
@@ -173,12 +182,15 @@ export default {
 </script>
 
 <style scoped lang="css">
+input:focus{
+  outline: none;
+}
 .dialog-item{
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  height: 200px;
+  height: 250px;
 }
 .buttons{
   margin-top: 20px;
@@ -186,24 +198,30 @@ export default {
 }
 .dialog-content{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 .dialog-item-input label{
   display: block;
+  padding-top: 20px;
 }
 .input-services{
   padding: 10px;
   width: 200px;
   border: 1px solid gray;
   border-radius: 15px;
-  margin-right:20px ;
+}
+.input-service{
+  display: flex;
+  justify-content: space-between;
 }
 .services-items{
   margin-top: 150px;
   
 }
 .service-add{
+  width: 80%;
+  margin: 0 auto;
   padding-top: 30px;
 }
 .services-item{
@@ -220,6 +238,7 @@ export default {
 .services-img img{
   display: block;
   width: 220px;
+  object-fit: cover;
   height: 150px;
 }
 .services-content__text{
@@ -231,5 +250,16 @@ export default {
 .price{
   font-size: 20px;
   font-weight: 800;
+}
+.input-group{
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.input-group__item{
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+
 }
 </style>

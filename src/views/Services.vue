@@ -134,6 +134,7 @@ data(){
 }
 .services-img img{
   display: block;
+  object-fit: cover;
   width: 220px;
   height: 150px;
 }
